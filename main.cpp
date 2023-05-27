@@ -30,7 +30,24 @@ int main() {
             ss >> m >> n;
 			SparseMatrix *mat = new SparseMatrix(m, n);
 			matrizes.push_back(mat);
+		}else if(comando == "testConstrutor"){
+			int l;
+			ss >> l;
+			matrizes[l]->testConstructor();
+			
+		}else if(comando == "print"){
+			int l;
+			ss >> l;
+			matrizes[l]->print();
+			//insert 0 2 3 10
+		}else if(comando == "insert"){
+			int index, i, j, val;
+            ss >> index >> i >> j >> val;
+			matrizes[index]->insert(i, j, val);
+		}else {
+			cout << "comando inexistente" << endl;
 		}
+		//oi mofi
 		// // createWith l
 		// else if(comando == "createWith") {
 		// 	// int l;

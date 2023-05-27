@@ -27,6 +27,23 @@ class SparseMatrix{
          * 
          */
         void alocarColunas(int n);
+        /**
+         * Esta função serve apenas para checar
+         * se as linhas e colunas foram alocadas
+         * de forma correta
+         * 
+         */
+        void testConstructor();
+
+        /**
+         * Essa função insere um valor na posição (i,j)
+         */
+        void insert(int i, int j, double value);
+        /**
+         * Essa função server para printar a matriz
+         * 
+         */
+        void print();
 };
 
 #endif
