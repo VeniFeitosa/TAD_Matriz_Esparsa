@@ -15,7 +15,7 @@ int main() {
 		stringstream ss{ input };
         ss >> comando;
 
-        // cout << "$" << ss.str() << endl;
+        cout << "$" << ss.str() << endl;
 
 		// exit
 		if(comando == "exit") {
@@ -44,6 +44,14 @@ int main() {
 			int index, i, j, val;
             ss >> index >> i >> j >> val;
 			matrizes[index]->insert(i, j, val);
+		}else if(comando == "clear"){
+			int index;
+            ss >> index;
+			matrizes[index]->clear();
+		}else if(comando == "get"){
+			int idc, i, j;
+            ss >> idc >> i >> j;
+			cout << matrizes[idc]->get(i, j) << endl;
 		}else {
 			cout << "comando inexistente" << endl;
 		}

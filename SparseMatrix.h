@@ -3,7 +3,7 @@
 #include "Node.h"
 /**
  * Classe que gera uma lista encadeada circular
- * com no centinela 
+ * com no sentinela 
  */
 class SparseMatrix{
     private:
@@ -17,6 +17,13 @@ class SparseMatrix{
          * A matriz com m linhas e n colunas
          */
         SparseMatrix(int m, int n);
+
+        /**
+         * Destrutor da classe. Essa função libera
+         * toda a memoria alocada, inclusive a do
+         * sentanela
+         */
+        ~SparseMatrix();
         /**
          * Função que aloca as linhas da matriz
          * 
@@ -44,6 +51,13 @@ class SparseMatrix{
          * 
          */
         void print();
+        
+        //Essa função deixa a lista vazia
+        void clear();
+
+        //Devolve o valor na celula (i, j) da matriz, onde i eh a linha e j eh a coluna.
+        double get(int i, int j);
+        
 };
 
 #endif
