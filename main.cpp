@@ -1,23 +1,51 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <iomanip>
 #include "SparseMatrix.h"
 using namespace std;
 
-int main() {
+SparseMatrix* readSparseMatrix(string diretorio){
+	ifstream fin;
+	fin.open("./Entradas/" + diretorio);
+	if (fin.is_open()){
+		int m, n;
+		fin >> m;
+		fin >> n;
+		cout << "Matriz: " << m << "x" << n << endl;
+		SparseMatrix* nova = new SparseMatrix(m, n);
+		while (fin.good()){
+			int i, j;
+			double val;
+			fin >> i;
+			fin >> j;
+			fin >> val;
+			nova->insert(i, j, val);
+		}
+		cout << "Matriz alocada com sucesso ☑" << endl;
+		return nova;
+	}else{
+		cout << "Diretorio " << diretorio << " não encontrado"<< endl;
+	}
+	
+}
 
+int main() {
+	system("chcp 65001 > nul");
 	vector<SparseMatrix*> matrizes;
 	
 	while(true) {
+		cout << "──────────────────────────" << endl;
+		cout << "-> ";
 		string input, comando;
 		getline(cin, input);
 		stringstream ss{ input };
         ss >> comando;
 
-        cout << "$" << ss.str() << endl;
-
+        // cout << "$" << ss.str() << endl;
+        cout << "➥  " << ss.str() << endl;
 		// exit
 		if(comando == "exit") {
 			// for(int i = 0; i < matrizes.size(); i++)
@@ -61,6 +89,11 @@ int main() {
 			int l;
 			ss >> l;
 			matrizes[l]->popularMatriz();
+		}else if(comando == "createFrom"){
+			string diretorio;
+			ss >> diretorio;
+			SparseMatrix*ptr = readSparseMatrix(diretorio);
+			matrizes.push_back(ptr);
 		}else {
 			cout << "comando inexistente" << endl;
 		}
