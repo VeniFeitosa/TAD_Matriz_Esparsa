@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iomanip>
 #include "SparseMatrix.h"
 using namespace std;
 
@@ -41,8 +42,12 @@ int main() {
 			matrizes[l]->print();
 			//insert 0 2 3 10
 		}else if(comando == "insert"){
-			int index, i, j, val;
-            ss >> index >> i >> j >> val;
+			// int index, i, j, val;
+			int index, i, j;
+			double val;
+            // ss >> index >> i >> j >> val;
+            ss >> index >> i >> j;
+			ss >> fixed >> setprecision(2) >> val;
 			matrizes[index]->insert(i, j, val);
 		}else if(comando == "clear"){
 			int index;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include "Node.h"
 #include "SparseMatrix.h"
 using namespace std;
@@ -86,39 +87,42 @@ void SparseMatrix::insert(int i, int j, double value){
             Node* viajanteLinha = auxLinha;
             Node* viajanteColuna = auxColuna;
 
-            //viaja até o no anterior ao no na linha
-            while (viajanteLinha->coluna + 1 != j){
-                if (viajanteLinha->next != auxLinha){
+            //faz o viajanteLinha apontar para o no 
+            //da linha que será o anterior ao meu novo no
+            while (viajanteLinha->next != auxLinha){
+                if (viajanteLinha->next->coluna >= j){
+                    break;
+                }else{
                     viajanteLinha = viajanteLinha->next;
-                }else{
-                    break;
                 }
             }
-            //viaja até o no anterior ao no na coluna
-            while (viajanteColuna->linha + 1 != i){
-                if (viajanteColuna->bottom != auxColuna){
-                    viajanteColuna = viajanteColuna->next;
-                }else{
+            //faz o viajanteColuna apontar para o no
+            //da coluna que será o anterior ao meu novo no
+            while (viajanteColuna->bottom != auxColuna){
+                if (viajanteColuna->bottom->linha >= i){
                     break;
+                }else{
+                    viajanteColuna = viajanteColuna->bottom;
                 }
             }
             
-            //Subcaso 2.1: Ja existe um no nessa posição
-            if (viajanteLinha->next->linha == i && viajanteColuna->bottom->coluna == j){
-                int antigo = viajanteLinha->next->valor;
-                cout << "Valor antigo: " << antigo << endl;
-                viajanteLinha->next->valor = value;
-                delete novo;
-            }
-            //Subcaso 2.2: 
-            else if(viajanteLinha->coluna + 1 == j && viajanteColuna->linha + 1 == i){
+            if (viajanteLinha->next != auxLinha && viajanteColuna->bottom != auxColuna){
+                //Subcaso 2.1: Ja existe um no nessa posição
+                if (viajanteLinha->next == viajanteColuna->bottom){
+                    int antigo = viajanteLinha->next->valor;
+                    cout << "Valor antigo: " << antigo << endl;
+                    viajanteLinha->next->valor = value;
+                    delete novo;
+                }
+                //Subcaso 2.2: Nao existe um no nessa posicao
+                else{
+                    novo->next = viajanteLinha->next;
+                    viajanteLinha->next = novo;
+                    novo->bottom = viajanteColuna->bottom;
+                    viajanteColuna->bottom = novo;
+                }
                 
-                novo->next = viajanteLinha->next;
-                viajanteLinha->next = novo;
-                novo->bottom = viajanteColuna->bottom;
-                viajanteColuna->bottom = novo;
             }
-            
         }
         //caso 3: inserir numa linha que tem algum no, mas numa coluna
         //que não tem nenhum no  
@@ -153,24 +157,22 @@ void SparseMatrix::insert(int i, int j, double value){
             viajante->bottom = novo;
             auxLinha->next = novo;
             novo->next = auxLinha;
-        }else{
-            
-        } 
+        }
 
     }    
 
 };
 
 void SparseMatrix::print(){
-
-    
     Node* auxLinha = this->m_head->bottom;
     Node* auxColuna;
 
     // percorre todos os sentinelas de linha
     while (auxLinha != m_head){
         string str;
-        str += "[ ";
+        // str += "[ ";
+        cout << fixed << setprecision(2);
+        cout << "[ ";
         // esse auxiliar de coluna server para percorrer
         // as colunas da linha atual
         auxColuna = auxLinha;
@@ -183,48 +185,31 @@ void SparseMatrix::print(){
                 int distancia = auxColuna->next->coluna - auxColuna->coluna;
 
                 for (int i = 1; i < distancia; i++){
-                    //cout << "0 ";
-                    str += "0 ";
+                    cout << setw(6) << "0.00" << " ";
+                    // str += "0 ";
                 }
                 auxColuna = auxColuna->next;
-                //cout << auxColuna->valor << " ";
-                str += to_string(auxColuna->valor) + " ";
+                // cout << auxColuna->valor << " ";
+                cout << setw(6) << auxColuna->valor << " ";
+                // str += to_string(auxColuna->valor) + " ";
                 qtd = qtd - distancia;
             }else{
                 for (int i = 0; i < qtd; i++){
-                    //cout << "0 ";
-                    str += "0 ";
+                    cout << setw(6) << "0.00" << " ";
+                    // str += "0 ";
                 }
                 break;
             }
         }
         //cout << endl;
-        str += "]";
-        cout << str << endl;
+        cout << "]" << endl;
+        // str += "]";
+        // cout << str << endl;
         auxLinha = auxLinha->bottom;
     }
-    
-
-    // Node* auxLinha = this->m_head->bottom;
-    
-    // while (auxLinha != m_head){
-    //     Node* auxColuna = this->m_head->next;
-    //     while (auxColuna != m_head){
-    //         if (auxLinha->next != auxLinha && auxColuna->bottom != auxColuna){
-    //             /* faço algo */
-    //         }else{
-    //             cout << "0 "; 
-    //         }
-            
-    //         auxColuna = auxColuna->next;
-    //     }
-    //     cout << endl;
-    //     auxLinha = auxLinha->bottom;
-    // }
 }
 
 void SparseMatrix::clear() {
-
     Node* auxLinha = this->m_head->bottom;
     Node* auxColuna;
 
