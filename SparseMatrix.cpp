@@ -96,6 +96,8 @@ void SparseMatrix::insert(int i, int j, double value){
                     viajanteLinha = viajanteLinha->next;
                 }
             }
+            cout << viajanteLinha->linha << endl;
+            cout << viajanteLinha->coluna << endl;
             //faz o viajanteColuna apontar para o no
             //da coluna que será o anterior ao meu novo no
             while (viajanteColuna->bottom != auxColuna){
@@ -105,24 +107,46 @@ void SparseMatrix::insert(int i, int j, double value){
                     viajanteColuna = viajanteColuna->bottom;
                 }
             }
-            
-            if (viajanteLinha->next != auxLinha && viajanteColuna->bottom != auxColuna){
-                //Subcaso 2.1: Ja existe um no nessa posição
-                if (viajanteLinha->next == viajanteColuna->bottom){
-                    int antigo = viajanteLinha->next->valor;
-                    cout << "Valor antigo: " << antigo << endl;
-                    viajanteLinha->next->valor = value;
-                    delete novo;
-                }
-                //Subcaso 2.2: Nao existe um no nessa posicao
-                else{
-                    novo->next = viajanteLinha->next;
-                    viajanteLinha->next = novo;
-                    novo->bottom = viajanteColuna->bottom;
-                    viajanteColuna->bottom = novo;
-                }
-                
+            cout << viajanteColuna->linha << endl;
+            cout << viajanteColuna->coluna << endl;
+
+            // cout << "entrou no if de subcasos \n";
+            if (viajanteLinha->next == viajanteColuna->bottom){
+                cout << "caiu no caso 2.1 \n";
+                int antigo = viajanteLinha->next->valor;
+                cout << "Valor antigo: " << antigo << endl;
+                viajanteLinha->next->valor = value;
+                delete novo;
             }
+            //Subcaso 2.2: Nao existe um no nessa posicao
+            else{
+                cout << "caiu no caso 2.2 \n";
+                novo->next = viajanteLinha->next;
+                viajanteLinha->next = novo;
+                novo->bottom = viajanteColuna->bottom;
+                viajanteColuna->bottom = novo;
+            }
+
+            // if (viajanteLinha->next != auxLinha && viajanteColuna->bottom != auxColuna){
+            //     //Subcaso 2.1: Ja existe um no nessa posição
+            //     cout << "entrou no if de subcasos \n";
+            //     if (viajanteLinha->next == viajanteColuna->bottom){
+            //         cout << "caiu no caso 2.1 \n";
+            //         int antigo = viajanteLinha->next->valor;
+            //         cout << "Valor antigo: " << antigo << endl;
+            //         viajanteLinha->next->valor = value;
+            //         delete novo;
+            //     }
+            //     //Subcaso 2.2: Nao existe um no nessa posicao
+            //     else{
+            //         cout << "caiu no caso 2.2 \n";
+            //         novo->next = viajanteLinha->next;
+            //         viajanteLinha->next = novo;
+            //         novo->bottom = viajanteColuna->bottom;
+            //         viajanteColuna->bottom = novo;
+            //     }
+                
+            // }
         }
         //caso 3: inserir numa linha que tem algum no, mas numa coluna
         //que não tem nenhum no  
