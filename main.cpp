@@ -57,6 +57,10 @@ int main() {
 			int idc, i, j;
             ss >> idc >> i >> j;
 			cout << matrizes[idc]->get(i, j) << endl;
+		}else if(comando == "popular"){
+			int l;
+			ss >> l;
+			matrizes[l]->popularMatriz();
 		}else {
 			cout << "comando inexistente" << endl;
 		}

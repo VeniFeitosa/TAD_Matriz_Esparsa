@@ -96,8 +96,8 @@ void SparseMatrix::insert(int i, int j, double value){
                     viajanteLinha = viajanteLinha->next;
                 }
             }
-            cout << viajanteLinha->linha << endl;
-            cout << viajanteLinha->coluna << endl;
+            // cout << viajanteLinha->linha << endl;
+            // cout << viajanteLinha->coluna << endl;
             //faz o viajanteColuna apontar para o no
             //da coluna que será o anterior ao meu novo no
             while (viajanteColuna->bottom != auxColuna){
@@ -107,20 +107,20 @@ void SparseMatrix::insert(int i, int j, double value){
                     viajanteColuna = viajanteColuna->bottom;
                 }
             }
-            cout << viajanteColuna->linha << endl;
-            cout << viajanteColuna->coluna << endl;
+            // cout << viajanteColuna->linha << endl;
+            // cout << viajanteColuna->coluna << endl;
 
             // cout << "entrou no if de subcasos \n";
             if (viajanteLinha->next == viajanteColuna->bottom){
-                cout << "caiu no caso 2.1 \n";
-                int antigo = viajanteLinha->next->valor;
-                cout << "Valor antigo: " << antigo << endl;
+                // cout << "caiu no caso 2.1 \n";
+                // int antigo = viajanteLinha->next->valor;
+                // cout << "Valor antigo: " << antigo << endl;
                 viajanteLinha->next->valor = value;
                 delete novo;
             }
             //Subcaso 2.2: Nao existe um no nessa posicao
             else{
-                cout << "caiu no caso 2.2 \n";
+                // cout << "caiu no caso 2.2 \n";
                 novo->next = viajanteLinha->next;
                 viajanteLinha->next = novo;
                 novo->bottom = viajanteColuna->bottom;
@@ -186,6 +186,16 @@ void SparseMatrix::insert(int i, int j, double value){
     }    
 
 };
+
+void SparseMatrix::popularMatriz(){
+    int count = 1;
+    for (int i = 1; i <= m; i++){
+        for (int j = 1; j <= n; j++){
+            this->insert(i, j, count);
+            count++;
+        }   
+    }
+}
 
 void SparseMatrix::print(){
     Node* auxLinha = this->m_head->bottom;

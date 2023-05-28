@@ -47,7 +47,11 @@ class SparseMatrix{
          */
         void insert(int i, int j, double value);
         /**
-         * Essa função server para printar a matriz
+         * Essa função serve para popular a mariz
+         */
+        void popularMatriz();
+        /**
+         * Essa função serve para printar a matriz
          * 
          */
         void print();
