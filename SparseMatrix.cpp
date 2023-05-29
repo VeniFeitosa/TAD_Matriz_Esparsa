@@ -206,7 +206,7 @@ void SparseMatrix::print(){
         string str;
         // str += "[ ";
         cout << fixed << setprecision(2);
-        cout << "[ ";
+        cout << "[";
         // esse auxiliar de coluna server para percorrer
         // as colunas da linha atual
         auxColuna = auxLinha;
@@ -265,6 +265,8 @@ void SparseMatrix::clear() {
         auxLinha = auxLinha->next;
     }
 }
+
+
 
 SparseMatrix::~SparseMatrix(){
     clear();
