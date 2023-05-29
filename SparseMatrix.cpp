@@ -244,31 +244,26 @@ void SparseMatrix::print(){
 }
 
 void SparseMatrix::clear() {
-    Node* auxLinha = this->m_head->bottom;
-    Node* auxColuna;
+    Node* auxLinha = m_head->bottom;
 
     while (auxLinha != m_head){
-        auxColuna = auxLinha;
+        Node* auxColuna = auxLinha->next;
         
-        while (auxColuna->next != auxLinha){
-            Node* aux = auxColuna->next;
-            auxColuna->next = aux->next;
+        while (auxColuna != auxLinha){
+            Node* aux = auxColuna;
+            auxColuna = auxColuna->next;
+            auxLinha->next = auxColuna;
             delete aux;
         }
-
-        //Node* aux = auxLinha;
-        //auxLinha->bottom = aux->bottom;
-        //delete aux;
         auxLinha = auxLinha->bottom;
-
-        /*
-        CERTIFICAR-SE DE QUE A FUNCAO ESTA FUNCIONANDO ANTES
-        DE MUDAR O TAMANHO DA MATRIZ!
-        */
-        m = 0;
-        n = 0;
     }
-    //m_head->bottom = m_head;
+
+    auxLinha = auxLinha->next;
+
+    while(auxLinha != m_head) {
+        auxLinha->bottom = auxLinha;
+        auxLinha = auxLinha->next;
+    }
 }
 
 SparseMatrix::~SparseMatrix(){
@@ -277,59 +272,27 @@ SparseMatrix::~SparseMatrix(){
 }
 
 double SparseMatrix::get(int i, int j) {
-
-    if ((i < 0 || i > m) && (j < 0 || i > n)) {
+    if ((i < 0 || i > m) || (j < 0 || j > n)) {
         throw runtime_error("Indices invalidos");
     } else {
         Node* auxLinha = m_head->bottom;
-        Node* auxColuna;
 
-        int linha{0}, coluna{0};
-        //ATENCA! A FUNCAO ESTA INCOMPLETA
         while (auxLinha != m_head) {
-            if (linha != i) {
-                i++;
-                auxLinha = auxLinha->next;
+            if (auxLinha->linha != i) {
+                auxLinha = auxLinha->bottom;
             } else {
-                auxColuna = auxLinha;
-                while (auxColuna->next != auxLinha) {
-                    if (coluna != j) {
-                        if (auxColuna->next == auxColuna) return 0;
-                        j++;
-                        auxColuna = auxColuna->next;
-                    } else {
+                Node* auxColuna = auxLinha->next;
+
+                while (auxColuna != auxLinha) {
+                    if (auxColuna->coluna == j) {
                         return auxColuna->valor;
                     }
+                    auxColuna = auxColuna->next;
                 }
-                /*
-                caso o next de auxColuna for igual a auxLinha
-                o while nao eh executado, retornando 0 de imediato
-                */
-                return 0; 
+                //se nao tiver nenhum elemento retorna 0
+                return 0.0;
             }
         }
-
-        /*
-        Node* auxLinha = m_head->bottom;
-        Node* auxColuna;
-
-        int linha{0}, coluna{0};
-        //ATENCA! A FUNCAO ESTA INCOMPLETA
-        while (auxLinha != m_head) {
-            if (linha != i) {
-                i++;
-                auxLinha = auxLinha->next;
-            } else {
-                auxColuna = auxLinha;
-                if (coluna != j) {
-                    j++;
-                    auxLinha = auxLinha->next;
-                } else {
-                    cout << auxColuna->valor;
-                }
-            }
-        }
-        */
-        return 0;
     }
+    return 0.0;
 }
