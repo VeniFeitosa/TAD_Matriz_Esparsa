@@ -292,7 +292,7 @@ double SparseMatrix::get(int i, int j) {
                     auxColuna = auxColuna->next;
                 }
                 //se nao tiver nenhum elemento retorna 0
-                return 0.0;
+                return 0.00;
             }
         }
     }

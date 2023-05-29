@@ -28,8 +28,8 @@ SparseMatrix* readSparseMatrix(string diretorio){
 		return nova;
 	}else{
 		cout << "Diretorio " << diretorio << " não encontrado"<< endl;
+		return nullptr;
 	}
-	
 }
 
 int main() {
