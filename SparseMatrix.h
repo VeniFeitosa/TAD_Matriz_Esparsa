@@ -34,6 +34,13 @@ class SparseMatrix{
          * 
          */
         void alocarColunas(int n);
+
+        //retorna o numero de linhas da matriz
+        int getLinhas();
+
+        //retorna o numero de colunas da matriz
+        int getColunas();
+
         /**
          * Esta função serve apenas para checar
          * se as linhas e colunas foram alocadas

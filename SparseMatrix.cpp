@@ -266,6 +266,14 @@ void SparseMatrix::clear() {
     }
 }
 
+int SparseMatrix::getLinhas(){
+    return m;
+}
+
+int SparseMatrix::getColunas(){
+    return n;
+}
+
 void SparseMatrix::desalocarLinhas(){
 
     Node* auxLinha = m_head->bottom;

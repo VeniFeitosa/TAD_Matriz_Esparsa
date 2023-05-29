@@ -32,6 +32,60 @@ SparseMatrix* readSparseMatrix(string diretorio){
 	}
 }
 
+// Recebe uma referencia para o objeto B do tipo Matriz que possui
+    // m linhas e n colunas e soma a matriz B com a matriz atual.
+    // Lembre que a soma de uma matriz A com uma matriz B so eh possivel  
+    // se o numero de linhas e de colunas de A for igual ao numero de 
+    // linhas e de colunas de B, respectivamente. 
+    // Se for possivel fazer a soma, um ponteiro para uma nova matriz C
+    // contendo o resultado da soma deve ser retornado (note que a matriz C 
+    // deve ser alocada dinamicamente dentro da funcao-membro).
+    // Caso contrario, retorna nullptr indicando que nao foi possivel 
+    // fazer a soma das matrizes.
+/*
+** Recebe duas matrizes esparsas e retorna outra matriz correspondente a soma.
+** Caso o numero de linhas e colunas de ambas as matrizes nao forem iguais, lanca
+** uma excessao. 
+*/
+SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
+	if ((A->getLinhas() == B->getLinhas()) && (A->getColunas() == B->getColunas())){
+
+		int nLinhas = A->getLinhas(), nColunas = B->getColunas();
+
+		SparseMatrix* AB = new SparseMatrix(nLinhas, nColunas);
+		for (int i = 1; i <= nLinhas; i++) {
+			for (int j = 1; j <= nColunas; j++) {
+				double value = A->get(i, j) + B->get(i, j);
+				AB->insert(i, j, value);
+			}
+		}
+
+		return AB;
+	} else{
+		throw out_of_range("deu ruim papai");
+	}
+}
+
+SparseMatrix *multiply(SparseMatrix *A, SparseMatrix *B) {
+	if (A->getColunas() == B->getLinhas()) {
+		int nLinhas = A->getLinhas(), nColunas = B->getColunas();
+		SparseMatrix* AB = new SparseMatrix(nLinhas, nColunas);
+
+		for(int i = 1; i <= nLinhas; i++) {
+			for (int j = 1; j <= nColunas; j++){
+			    double value = 0;
+				for(int x = 1; x <= A->getColunas(); x++) {
+					value += A->get(i, x) * B->get(x, j);
+				}
+				AB->insert(i, j, value);
+			}
+		}
+		return AB;
+	} else{
+		throw out_of_range("melhore");
+	}
+}
+
 int main() {
 	system("chcp 65001 > nul");
 	vector<SparseMatrix*> matrizes;
@@ -94,7 +148,17 @@ int main() {
 			ss >> diretorio;
 			SparseMatrix*ptr = readSparseMatrix(diretorio);
 			matrizes.push_back(ptr);
-		}else {
+		}else if(comando == "somar"){
+			int a, b;
+			ss >> a >> b;
+			SparseMatrix* ptr = sum(matrizes[a], matrizes[b]);
+			matrizes.push_back(ptr);
+		}else if("multiplicar") {
+			int a, b;
+			ss >> a >> b;
+			SparseMatrix* ptr = multiply(matrizes[a], matrizes[b]);
+			matrizes.push_back(ptr);
+		} else{
 			cout << "comando inexistente" << endl;
 		}
 		//oi mofi
