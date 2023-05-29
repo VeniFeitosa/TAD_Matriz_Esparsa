@@ -279,22 +279,22 @@ double SparseMatrix::get(int i, int j) {
     } else {
         Node* auxLinha = m_head->bottom;
 
-        while (auxLinha != m_head) {
-            if (auxLinha->linha != i) {
-                auxLinha = auxLinha->bottom;
-            } else {
-                Node* auxColuna = auxLinha->next;
+        while (auxLinha->linha != i) {
+            auxLinha = auxLinha->bottom;
+        }
 
-                while (auxColuna != auxLinha) {
-                    if (auxColuna->coluna == j) {
-                        return auxColuna->valor;
-                    }
-                    auxColuna = auxColuna->next;
-                }
-                //se nao tiver nenhum elemento retorna 0
-                return 0.0;
+        Node* auxColuna = auxLinha->next;
+
+        while (auxColuna != auxLinha) {
+            if (auxColuna->coluna == j) {
+                return auxColuna->valor;
+            } else if (auxColuna->coluna > j) {
+                return 0;
+            } else {
+                auxColuna = auxColuna->next;
             }
         }
+        //se nao tiver nenhum elemento retorna 0
+        return 0;
     }
-    return 0.0;
 }

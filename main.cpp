@@ -84,7 +84,7 @@ int main() {
 		}else if(comando == "get"){
 			int idc, i, j;
             ss >> idc >> i >> j;
-			cout << matrizes[idc]->get(i, j) << endl;
+			cout << fixed << setprecision(2) << matrizes[idc]->get(i, j) << endl;
 		}else if(comando == "popular"){
 			int l;
 			ss >> l;
