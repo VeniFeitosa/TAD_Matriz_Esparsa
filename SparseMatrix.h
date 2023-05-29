@@ -3,7 +3,7 @@
 #include "Node.h"
 /**
  * Classe que gera uma lista encadeada circular
- * com no sentinela 
+ * com no sentinela.
  */
 class SparseMatrix{
     private:
@@ -13,66 +13,79 @@ class SparseMatrix{
     public:
         /**
          * Construtor da classe. Essa função checa
-         * Se os valores passados são válidos e inicia
-         * A matriz com m linhas e n colunas
+         * se os valores passados são válidos e inicia
+         * a matriz com m linhas e n colunas, caso contrario
+         * lança uma excessao.
          */
         SparseMatrix(int m, int n);
 
         /**
          * Destrutor da classe. Essa função libera
          * toda a memoria alocada, inclusive a do
-         * sentanela
+         * sentinela.
          */
         ~SparseMatrix();
+
         /**
-         * Função que aloca as linhas da matriz
-         * 
+         * Função que aloca as m linhas da matriz.
          */
         void alocarLinhas(int m);
+
         /**
-         * Função que aloca as colunas da matriz
+         * Função que aloca as n colunas da matriz.
          * 
          */
         void alocarColunas(int n);
 
-        //retorna o numero de linhas da matriz
+        //Função que retorna o número de linhas da matriz.
         int getLinhas();
 
-        //retorna o numero de colunas da matriz
+        //Função que retorna o número de colunas da matriz.
         int getColunas();
 
         /**
          * Esta função serve apenas para checar
          * se as linhas e colunas foram alocadas
          * de forma correta
-         * 
          */
         void testConstructor();
 
         /**
-         * Essa função insere um valor na posição (i,j)
+         * Essa função insere um valor na posição (i,j) da matriz se
+         * os valores passados forem válidos
          */
         void insert(int i, int j, double value);
         /**
-         * Essa função serve para popular a mariz
+         * Essa função serve para popular a matriz
+         * a fim de facilitar os testes.
          */
         void popularMatriz();
+
         /**
-         * Essa função serve para printar a matriz
-         * 
+         * Essa função serve para printar a matriz.
          */
         void print();
         
-        //Essa função deixa a lista vazia
+        /**
+         * Essa função esvazia a matriz, desalocando
+         * todos os nós que não são sentinelas.
+         */
         void clear();
 
-        //essa funcao desaloca as linhas da matriz
+        /**
+         * Essa função desaloca as linhas sentinelas da matriz.
+         */
         void desalocarLinhas();
 
-        //essa funcao desaloca as colunas da matriz
+        /**
+         * Essa função desaloca as colunas sentinelas da matriz.
+         */
         void desalocarColunas();
 
-        //Devolve o valor na celula (i, j) da matriz, onde i eh a linha e j eh a coluna.
+        /**
+         * Essa função retorna o elemento (i, j) da matriz, caso
+         * os índices passados forem válidos.
+         */
         double get(int i, int j);
         
 };

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <stdexcept>
 #include "SparseMatrix.h"
 using namespace std;
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 #include "Node.h"
 #include "SparseMatrix.h"
 using namespace std;
@@ -14,6 +15,8 @@ SparseMatrix::SparseMatrix(int m, int n){
         m_head = new Node(0, 0 , 0);
         alocarLinhas(m);
         alocarColunas(n);
+    } else {
+        throw out_of_range("Linhas ou colunas invalidos");
     }
 }
 
@@ -59,6 +62,8 @@ void SparseMatrix::testConstructor(){
 void SparseMatrix::insert(int i, int j, double value){
     if (i > this->m || j > this->n){
         throw runtime_error("Indices invalidos");
+    }else if (value == 0) {
+        return;
     }else{
         Node* auxLinha = m_head->bottom;
         Node* auxColuna = m_head->next;
