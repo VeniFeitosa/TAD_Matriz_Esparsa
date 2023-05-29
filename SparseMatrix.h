@@ -59,6 +59,12 @@ class SparseMatrix{
         //Essa função deixa a lista vazia
         void clear();
 
+        //essa funcao desaloca as linhas da matriz
+        void desalocarLinhas();
+
+        //essa funcao desaloca as colunas da matriz
+        void desalocarColunas();
+
         //Devolve o valor na celula (i, j) da matriz, onde i eh a linha e j eh a coluna.
         double get(int i, int j);
         

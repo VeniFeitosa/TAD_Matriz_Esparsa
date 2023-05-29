@@ -48,9 +48,9 @@ int main() {
         cout << "➥  " << ss.str() << endl;
 		// exit
 		if(comando == "exit") {
-			// for(int i = 0; i < matrizes.size(); i++)
-			// 	delete matrizes[i];
-			// matrizes.clear();
+			for(int i = 0; i < matrizes.size(); i++)
+				delete matrizes[i];
+			matrizes.clear();
 			break;
 		}
 		// create

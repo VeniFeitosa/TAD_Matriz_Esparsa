@@ -266,10 +266,35 @@ void SparseMatrix::clear() {
     }
 }
 
+void SparseMatrix::desalocarLinhas(){
 
+    Node* auxLinha = m_head->bottom;
+    while (auxLinha != m_head) {
+        Node* aux = auxLinha;
+        auxLinha = auxLinha->bottom;
+        m_head->bottom = auxLinha;
+        cout << "desalocando sentinela linha: " << aux->linha << endl;
+        delete aux;
+    }
+}
+
+void SparseMatrix::desalocarColunas(){
+
+    Node* auxColuna = m_head->next;
+    while (auxColuna != m_head) {
+        Node* aux = auxColuna;
+        auxColuna = auxColuna->next;
+        m_head->next = auxColuna;
+        cout << "desalocando sentinela coluna: " << aux->coluna << endl;
+        delete aux;
+    }
+
+}
 
 SparseMatrix::~SparseMatrix(){
     clear();
+    desalocarLinhas();
+    desalocarColunas();
     delete m_head;
 }
 
