@@ -274,7 +274,7 @@ SparseMatrix::~SparseMatrix(){
 }
 
 double SparseMatrix::get(int i, int j) {
-    if ((i < 0 || i > m) || (j < 0 || j > n)) {
+    if ((i <= 0 || i > m) || (j <= 0 || j > n)) {
         throw runtime_error("Indices invalidos");
     } else {
         Node* auxLinha = m_head->bottom;
