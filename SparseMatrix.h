@@ -20,6 +20,13 @@ class SparseMatrix{
         SparseMatrix(int m, int n);
 
         /**
+         * Construtor de copia. Essa função recebe
+         * uma matriz esparsa como parâmetro e retorna
+         * uma matriz cópia da passada de parâmetro.
+         */
+        SparseMatrix(const SparseMatrix& sp);
+
+        /**
          * Destrutor da classe. Essa função libera
          * toda a memoria alocada, inclusive a do
          * sentinela.
@@ -86,7 +93,7 @@ class SparseMatrix{
          * Essa função retorna o elemento (i, j) da matriz, caso
          * os índices passados forem válidos.
          */
-        double get(int i, int j);
+        double get(int i, int j) const;
         
 };
 

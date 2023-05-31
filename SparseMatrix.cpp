@@ -20,6 +20,20 @@ SparseMatrix::SparseMatrix(int m, int n){
     }
 }
 
+SparseMatrix::SparseMatrix(const SparseMatrix& sp) {
+    m = sp.m;
+    n = sp.n;
+    m_head = new Node(0, 0 , 0);
+    alocarLinhas(m);
+    alocarColunas(n);
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            insert(i, j, sp.get(i, j));
+        }
+    }
+}
+
 // Aloca M linhas na matriz
 void SparseMatrix::alocarLinhas(int m){
     Node* aux = m_head;
@@ -311,7 +325,7 @@ SparseMatrix::~SparseMatrix(){
     delete m_head;
 }
 
-double SparseMatrix::get(int i, int j) {
+double SparseMatrix::get(int i, int j) const{
     if ((i <= 0 || i > m) || (j <= 0 || j > n)) {
         throw runtime_error("Indices invalidos");
     } else {

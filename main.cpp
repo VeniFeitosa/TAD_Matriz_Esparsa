@@ -154,11 +154,16 @@ int main() {
 			ss >> a >> b;
 			SparseMatrix* ptr = sum(matrizes[a], matrizes[b]);
 			matrizes.push_back(ptr);
-		}else if("multiplicar") {
+		}else if(comando == "multiplicar") {
 			int a, b;
 			ss >> a >> b;
 			SparseMatrix* ptr = multiply(matrizes[a], matrizes[b]);
 			matrizes.push_back(ptr);
+		}else if(comando == "copia") {
+			int idc;
+			ss >> idc;
+			SparseMatrix* mat = new SparseMatrix(*matrizes[idc]);
+			matrizes.push_back(mat);
 		} else{
 			cout << "comando inexistente" << endl;
 		}
