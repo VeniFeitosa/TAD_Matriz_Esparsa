@@ -103,7 +103,7 @@ int main() {
         cout << "➥  " << ss.str() << endl;
 		// exit
 		if(comando == "exit") {
-			for(int i = 0; i < matrizes.size(); i++)
+			for(size_t i = 0; i < matrizes.size(); i++)
 				delete matrizes[i];
 			matrizes.clear();
 			break;

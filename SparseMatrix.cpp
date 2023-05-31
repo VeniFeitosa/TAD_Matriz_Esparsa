@@ -81,7 +81,7 @@ void SparseMatrix::insert(int i, int j, double value){
     }else{
         Node* auxLinha = m_head->bottom;
         Node* auxColuna = m_head->next;
-        Node* novo = new Node(i, j, value);
+        
         while(auxLinha->linha != i){
             auxLinha = auxLinha->bottom;
         }
@@ -92,117 +92,40 @@ void SparseMatrix::insert(int i, int j, double value){
         }
         // nesse momento o auxColuna aponta para o no sentinela
         // da coluna correta
+        Node* viajanteLinha = auxLinha;
+        Node* viajanteColuna = auxColuna;
 
-        //caso base: não tem nada na linha nem na coluna
-        if (auxLinha->next == auxLinha && auxColuna->bottom == auxColuna){
-            auxLinha->next = novo;
-            auxColuna->bottom = novo;
-
-            novo->next = auxLinha;
-            novo->bottom = auxColuna;
+        //faz o viajanteLinha apontar para o no 
+        //da linha que será o anterior ao meu novo no
+        while (viajanteLinha->next != auxLinha){
+            if (viajanteLinha->next->coluna >= j){
+                break;
+            }else{
+                viajanteLinha = viajanteLinha->next;
+            }
         }
-        //caso 2 já existe elemento na linha e na coluna
-        else if(auxLinha->next != auxLinha && auxColuna->bottom != auxColuna){
-            Node* viajanteLinha = auxLinha;
-            Node* viajanteColuna = auxColuna;
-
-            //faz o viajanteLinha apontar para o no 
-            //da linha que será o anterior ao meu novo no
-            while (viajanteLinha->next != auxLinha){
-                if (viajanteLinha->next->coluna >= j){
-                    break;
-                }else{
-                    viajanteLinha = viajanteLinha->next;
-                }
+        //faz o viajanteColuna apontar para o no
+        //da coluna que será o anterior ao meu novo no
+        while (viajanteColuna->bottom != auxColuna){
+            if (viajanteColuna->bottom->linha >= i){
+                break;
+            }else{
+                viajanteColuna = viajanteColuna->bottom;
             }
-            // cout << viajanteLinha->linha << endl;
-            // cout << viajanteLinha->coluna << endl;
-            //faz o viajanteColuna apontar para o no
-            //da coluna que será o anterior ao meu novo no
-            while (viajanteColuna->bottom != auxColuna){
-                if (viajanteColuna->bottom->linha >= i){
-                    break;
-                }else{
-                    viajanteColuna = viajanteColuna->bottom;
-                }
-            }
-            // cout << viajanteColuna->linha << endl;
-            // cout << viajanteColuna->coluna << endl;
-
-            // cout << "entrou no if de subcasos \n";
-            if (viajanteLinha->next == viajanteColuna->bottom){
-                // cout << "caiu no caso 2.1 \n";
-                // int antigo = viajanteLinha->next->valor;
-                // cout << "Valor antigo: " << antigo << endl;
-                viajanteLinha->next->valor = value;
-                delete novo;
-            }
-            //Subcaso 2.2: Nao existe um no nessa posicao
-            else{
-                // cout << "caiu no caso 2.2 \n";
-                novo->next = viajanteLinha->next;
-                viajanteLinha->next = novo;
-                novo->bottom = viajanteColuna->bottom;
-                viajanteColuna->bottom = novo;
-            }
-
-            // if (viajanteLinha->next != auxLinha && viajanteColuna->bottom != auxColuna){
-            //     //Subcaso 2.1: Ja existe um no nessa posição
-            //     cout << "entrou no if de subcasos \n";
-            //     if (viajanteLinha->next == viajanteColuna->bottom){
-            //         cout << "caiu no caso 2.1 \n";
-            //         int antigo = viajanteLinha->next->valor;
-            //         cout << "Valor antigo: " << antigo << endl;
-            //         viajanteLinha->next->valor = value;
-            //         delete novo;
-            //     }
-            //     //Subcaso 2.2: Nao existe um no nessa posicao
-            //     else{
-            //         cout << "caiu no caso 2.2 \n";
-            //         novo->next = viajanteLinha->next;
-            //         viajanteLinha->next = novo;
-            //         novo->bottom = viajanteColuna->bottom;
-            //         viajanteColuna->bottom = novo;
-            //     }
-                
-            // }
         }
-        //caso 3: inserir numa linha que tem algum no, mas numa coluna
-        //que não tem nenhum no  
-        else if(auxLinha->next != auxLinha && auxColuna->bottom == auxColuna){
-            Node* viajante = auxLinha;
-            while (viajante->coluna + 1 != j){
-                if (viajante->next != auxLinha){
-                    viajante = viajante->next;
-                }else{
-                    break;
-                }
-                
-            }
-            novo->next = viajante->next;
-            viajante->next = novo;
-            auxColuna->bottom = novo;
-            novo->bottom = auxColuna;
+        //caso 1: o nó já existe, apenas atualiza o valor
+        if (viajanteLinha->next == viajanteColuna->bottom){
+            viajanteLinha->next->valor = value;
         }
-        //caso 4: inserir numa coluna que tem algum no, mas numa linha
-        //que não tem nenhum no 
-        else if(auxLinha->next == auxLinha && auxColuna->bottom != auxColuna){
-            Node* viajante = auxColuna;
-            while (viajante->linha + 1 != i){
-                if (viajante->bottom != auxColuna){
-                    viajante = viajante->bottom;
-                }else{
-                    break;
-                }
-                
-            }
-            novo->bottom = viajante->bottom;
-            viajante->bottom = novo;
-            auxLinha->next = novo;
-            novo->next = auxLinha;
+        //Subcaso 2.2: Nao existe um no nessa posicao
+        else{
+            Node* novo = new Node(i, j, value);
+            novo->next = viajanteLinha->next;
+            viajanteLinha->next = novo;
+            novo->bottom = viajanteColuna->bottom;
+            viajanteColuna->bottom = novo;
         }
-
-    }    
+    }
 
 };
 
