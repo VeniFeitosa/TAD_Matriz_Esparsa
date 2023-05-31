@@ -8,9 +8,9 @@
 #include "SparseMatrix.h"
 using namespace std;
 
-SparseMatrix* readSparseMatrix(string diretorio){
+SparseMatrix* readSparseMatrix(string arquivo){
 	ifstream fin;
-	fin.open("./Entradas/" + diretorio);
+	fin.open("./Matrizes/" + arquivo);
 	if (fin.is_open()){
 		int m, n;
 		fin >> m;
@@ -28,21 +28,32 @@ SparseMatrix* readSparseMatrix(string diretorio){
 		cout << "Matriz alocada com sucesso ☑" << endl;
 		return nova;
 	}else{
-		cout << "Diretorio " << diretorio << " não encontrado"<< endl;
+		cout << "arquivo " << arquivo << " não encontrado"<< endl;
 		return nullptr;
 	}
 }
 
-// Recebe uma referencia para o objeto B do tipo Matriz que possui
-    // m linhas e n colunas e soma a matriz B com a matriz atual.
-    // Lembre que a soma de uma matriz A com uma matriz B so eh possivel  
-    // se o numero de linhas e de colunas de A for igual ao numero de 
-    // linhas e de colunas de B, respectivamente. 
-    // Se for possivel fazer a soma, um ponteiro para uma nova matriz C
-    // contendo o resultado da soma deve ser retornado (note que a matriz C 
-    // deve ser alocada dinamicamente dentro da funcao-membro).
-    // Caso contrario, retorna nullptr indicando que nao foi possivel 
-    // fazer a soma das matrizes.
+void exportSparseMatrix(SparseMatrix* ptr, string arquivo){
+	ofstream fout;
+	int m, n;
+	m = ptr->getLinhas();
+	n = ptr->getColunas();
+	fout.open("./Matrizes/" + arquivo);
+	fout << m << " " << n << endl;
+
+	for (int i = 1; i <= m; i++){
+		for (int j = 1; j <= n; j++){
+			double valor = ptr->get(i, j);
+			if (valor != 0){
+				fout << i << " " << j << " " << valor << endl;
+			}
+			
+		}
+		
+	}
+	
+}
+
 /*
 ** Recebe duas matrizes esparsas e retorna outra matriz correspondente a soma.
 ** Caso o numero de linhas e colunas de ambas as matrizes nao forem iguais, lanca
@@ -124,6 +135,18 @@ int main() {
 			ss >> l;
 			matrizes[l]->print();
 			//insert 0 2 3 10
+		}else if(comando == "printAll"){
+			cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
+			for (size_t i = 0; i < matrizes.size(); i++){
+				cout << "Matriz " << i << endl;
+				matrizes[i]->print();
+				if (i + 1 != matrizes.size()){
+					// cout << "──────────────────────────" << endl;
+					cout << "--------------------------" << endl;
+				}
+				
+			}
+			cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
 		}else if(comando == "insert"){
 			// int index, i, j, val;
 			int index, i, j;
@@ -145,10 +168,19 @@ int main() {
 			ss >> l;
 			matrizes[l]->popularMatriz();
 		}else if(comando == "createFrom"){
-			string diretorio;
-			ss >> diretorio;
-			SparseMatrix*ptr = readSparseMatrix(diretorio);
-			matrizes.push_back(ptr);
+			string arquivo;
+			ss >> arquivo;
+			SparseMatrix*ptr = readSparseMatrix(arquivo);
+			if (ptr != nullptr){
+				matrizes.push_back(ptr);
+			}
+			
+		}else if(comando == "exportar"){
+			int a;
+			string arquivo;
+			ss >> a;
+			ss >> arquivo;
+			exportSparseMatrix(matrizes[a], arquivo);
 		}else if(comando == "somar"){
 			int a, b;
 			ss >> a >> b;
@@ -167,59 +199,6 @@ int main() {
 		} else{
 			cout << "comando inexistente" << endl;
 		}
-		//oi mofi
-		// // createWith l
-		// else if(comando == "createWith") {
-		// 	// int l;
-        //     // ss >> l;
-		// 	// ForwardList *mat = new ForwardList(*matrizes[l]);
-		// 	// matrizes.push_back(mat);
-		// }
-		// // pushback x l
-		// else if(comando == "pushback") {
-		// 	// int x, l;
-        //     // ss >> x >> l;
-		// 	// matrizes[l]->push_back(x);
-		// }
-        // // pushfront x l
-		// else if(comando == "pushfront") {
-		// 	// int x, l;
-        //     // ss >> x >> l;
-		// 	// matrizes[l]->push_front(x);
-		// }
-        // // popfront l
-		// else if(comando == "popfront") {
-		// 	// int l;
-        //     // ss >> l;
-		// 	// matrizes[l]->pop_front();
-		// }
-        // // popback l
-		// else if(comando == "popback") {
-		// 	int l;
-        //     ss >> l;
-		// 	matrizes[l]->pop_back();
-		// }
-        // // front l
-		// else if(comando == "front") {
-		// 	int l;
-        //     ss >> l;
-		// 	cout << "front: " << matrizes[l]->front() << endl;
-		// }
-        // // back l
-		// else if(comando == "back") {
-		// 	int l;
-        //     ss >> l;
-        //     cout << "back: " << matrizes[l]->back() << endl;
-		// }
-        // // show 
-		// else if(comando == "show") {
-        //     for(unsigned i = 0; i < matrizes.size(); ++i) {
-        //         cout << "lista " << i << ": " << (*matrizes[i]).toString() << endl;
-        //     }	
-		// }
-		// else {
-		// 	cout << "input inexistente" << endl;
-		// }
 	}
 	return 0;
 }
