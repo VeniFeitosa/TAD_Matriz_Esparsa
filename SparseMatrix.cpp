@@ -75,7 +75,7 @@ void SparseMatrix::testConstructor(){
 
 void SparseMatrix::insert(int i, int j, double value){
     if (i > this->m || j > this->n){
-        throw runtime_error("Indices invalidos");
+        throw out_of_range("Indices invalidos");
     }else if (value == 0) {
         return;
     }else{
