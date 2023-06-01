@@ -75,10 +75,16 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
 		return AB;
 		
 	} else{
-		throw out_of_range("deu ruim papai");
+		throw out_of_range("Numero de linhas e colunas diferentes");
 	}
 }
 
+
+/*
+** Recebe duas matrizes esparsas e retorna outra matriz correspondente a multiplicação das matrizes.
+** Caso o numero de colunas da primeira matriz não for igual ao número de linhas da primeira, lança
+** uma exceção 
+*/
 SparseMatrix *multiply(SparseMatrix *A, SparseMatrix *B) {
 	if (A->getColunas() == B->getLinhas()) {
 		int nLinhas = A->getLinhas(), nColunas = B->getColunas();
@@ -95,7 +101,7 @@ SparseMatrix *multiply(SparseMatrix *A, SparseMatrix *B) {
 		}
 		return AB;
 	} else{
-		throw out_of_range("melhore");
+		throw out_of_range("Numero de colunas da primeira matriz nao corresponde com o numero de linhas da segunda");
 	}
 }
 

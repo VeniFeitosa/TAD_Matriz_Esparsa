@@ -3,9 +3,14 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <random>
 #include "Node.h"
 #include "SparseMatrix.h"
 using namespace std;
+
+//cria um gerador de double aleatórios com intervalo de -99.0 a 99.0
+default_random_engine generator;
+uniform_real_distribution<double> distribution(-50.0,50.0);
 
 // Construtor da classe
 SparseMatrix::SparseMatrix(int m, int n){
@@ -143,11 +148,9 @@ void SparseMatrix::insert(int i, int j, double value){
 }
 
 void SparseMatrix::popularMatriz(){
-    int count = 1;
     for (int i = 1; i <= m; i++){
         for (int j = 1; j <= n; j++){
-            this->insert(i, j, count);
-            count++;
+            this->insert(i, j, distribution(generator));
         }   
     }
 }
