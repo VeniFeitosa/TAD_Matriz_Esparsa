@@ -76,9 +76,7 @@ void SparseMatrix::testConstructor(){
 void SparseMatrix::insert(int i, int j, double value){
     if (i > this->m || j > this->n){
         throw out_of_range("Indices invalidos");
-    }else if (value == 0) {
-        return;
-    }else{
+    } else{
         Node* auxLinha = m_head->bottom;
         Node* auxColuna = m_head->next;
         
@@ -113,21 +111,36 @@ void SparseMatrix::insert(int i, int j, double value){
                 viajanteColuna = viajanteColuna->bottom;
             }
         }
-        //caso 1: o nó já existe, apenas atualiza o valor
+        //caso 1: O nó já existe, apenas atualiza o valor
         if (viajanteLinha->next == viajanteColuna->bottom){
-            viajanteLinha->next->valor = value;
+            //Se o insert for de valor 0, remove o nó correspondente
+            if (value == 0) {
+                //cria um nó aux apontando pro nó que será apagado
+                Node* aux = viajanteLinha->next;
+                //faz o viajanteLinha->next apontar pro prox
+                viajanteLinha->next = viajanteLinha->next->next;
+                //faz o viajanteColuna->bottom apontar pro abaixo
+                viajanteColuna->bottom = viajanteColuna->bottom->bottom;
+                //deleta o nó correspondente
+                delete aux;
+            } else{
+                viajanteLinha->next->valor = value;
+            }
         }
-        //Subcaso 2.2: Nao existe um no nessa posicao
+        //caso 2: Não existe um nó nessa posicao
         else{
-            Node* novo = new Node(i, j, value);
-            novo->next = viajanteLinha->next;
-            viajanteLinha->next = novo;
-            novo->bottom = viajanteColuna->bottom;
-            viajanteColuna->bottom = novo;
+            //Adiciona o nó caso o valor for diferente de 0
+            //caso for == 0, não adiciona
+            if (value != 0) {
+                Node* novo = new Node(i, j, value);
+                novo->next = viajanteLinha->next;
+                viajanteLinha->next = novo;
+                novo->bottom = viajanteColuna->bottom;
+                viajanteColuna->bottom = novo;
+            }
         }
     }
-
-};
+}
 
 void SparseMatrix::popularMatriz(){
     int count = 1;

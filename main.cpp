@@ -62,6 +62,7 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
 		}
 
 		return AB;
+		
 	} else{
 		throw out_of_range("deu ruim papai");
 	}

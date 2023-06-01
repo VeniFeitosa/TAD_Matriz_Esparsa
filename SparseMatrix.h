@@ -94,7 +94,6 @@ class SparseMatrix{
          * os índices passados forem válidos.
          */
         double get(int i, int j) const;
-        
 };
 
 #endif
