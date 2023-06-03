@@ -8,7 +8,7 @@
 #include "SparseMatrix.h"
 using namespace std;
 
-//cria um gerador de double aleatórios com intervalo de -99.0 a 99.0
+//cria um gerador de double aleatórios com intervalo de -50.0 a 50.0
 default_random_engine generator;
 uniform_real_distribution<double> distribution(-50.0,50.0);
 
