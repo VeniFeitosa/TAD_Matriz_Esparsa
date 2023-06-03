@@ -159,7 +159,7 @@ int main() {
 			int index, i, j;
             ss >> index >> i >> j;
 			cout << fixed << setprecision(2) << matrizes[index]->get(i, j) << endl;
-		}else if(command == "popular"){
+		}else if(command == "populate"){
 			int m;
 			ss >> m;
 			matrizes[m]->popularMatriz();
