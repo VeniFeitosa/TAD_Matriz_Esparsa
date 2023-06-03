@@ -117,16 +117,14 @@ int main() {
 		stringstream ss{ input };
         ss >> comando;
 
-        // cout << "$" << ss.str() << endl;
         cout << "➥  " << ss.str() << endl;
-		// exit
+
 		if(comando == "exit") {
 			for(size_t i = 0; i < matrizes.size(); i++)
 				delete matrizes[i];
 			matrizes.clear();
 			break;
 		}
-		// create
 		else if(comando == "create") {
             int m, n;
             ss >> m >> n;
@@ -148,17 +146,13 @@ int main() {
 				cout << "Matriz " << i << endl;
 				matrizes[i]->print();
 				if (i + 1 != matrizes.size()){
-					// cout << "──────────────────────────" << endl;
 					cout << "--------------------------" << endl;
 				}
-				
 			}
 			cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
 		}else if(comando == "insert"){
-			// int index, i, j, val;
 			int index, i, j;
 			double val;
-            // ss >> index >> i >> j >> val;
             ss >> index >> i >> j;
 			ss >> fixed >> setprecision(2) >> val;
 			matrizes[index]->insert(i, j, val);
@@ -167,41 +161,40 @@ int main() {
             ss >> index;
 			matrizes[index]->clear();
 		}else if(comando == "get"){
-			int idc, i, j;
-            ss >> idc >> i >> j;
-			cout << fixed << setprecision(2) << matrizes[idc]->get(i, j) << endl;
+			int index, i, j;
+            ss >> index >> i >> j;
+			cout << fixed << setprecision(2) << matrizes[index]->get(i, j) << endl;
 		}else if(comando == "popular"){
-			int l;
-			ss >> l;
-			matrizes[l]->popularMatriz();
+			int m;
+			ss >> m;
+			matrizes[m]->popularMatriz();
 		}else if(comando == "createFrom"){
 			string arquivo;
 			ss >> arquivo;
-			SparseMatrix*ptr = readSparseMatrix(arquivo);
+			SparseMatrix* ptr = readSparseMatrix(arquivo);
 			if (ptr != nullptr){
 				matrizes.push_back(ptr);
 			}
-			
-		}else if(comando == "exportar"){
-			int a;
+		}else if(comando == "export"){
+			int m;
 			string arquivo;
-			ss >> a;
+			ss >> m;
 			ss >> arquivo;
-			exportSparseMatrix(matrizes[a], arquivo);
-		}else if(comando == "somar"){
+			exportSparseMatrix(matrizes[m], arquivo);
+		}else if(comando == "sum"){
 			int a, b;
 			ss >> a >> b;
 			SparseMatrix* ptr = sum(matrizes[a], matrizes[b]);
 			matrizes.push_back(ptr);
-		}else if(comando == "multiplicar") {
+		}else if(comando == "multiply") {
 			int a, b;
 			ss >> a >> b;
 			SparseMatrix* ptr = multiply(matrizes[a], matrizes[b]);
 			matrizes.push_back(ptr);
-		}else if(comando == "copia") {
-			int idc;
-			ss >> idc;
-			SparseMatrix* mat = new SparseMatrix(*matrizes[idc]);
+		}else if(comando == "copy") {
+			int index;
+			ss >> index;
+			SparseMatrix* mat = new SparseMatrix(*matrizes[index]);
 			matrizes.push_back(mat);
 		} else{
 			cout << "comando inexistente" << endl;
