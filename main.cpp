@@ -53,27 +53,39 @@ void exportSparseMatrix(SparseMatrix* ptr, string arquivo){
 
 /*
 ** Recebe duas matrizes esparsas e retorna outra matriz correspondente a soma.
-** Caso o numero de linhas e colunas de ambas as matrizes nao forem iguais, lanca
-** uma excessao. 
+** Caso o numero de linhas e colunas de ambas as matrizes nao forem iguais, lança
+** uma excessão. 
 */
 SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
+
+	// Verifica se as matrizes A e B têm o mesmo número de linhas e colunas.
 	if ((A->getLinhas() == B->getLinhas()) && (A->getColunas() == B->getColunas())){
 
 		int nLinhas = A->getLinhas(), nColunas = B->getColunas();
 
+		// Cria uma nova matriz esparsa com o mesmo número de linhas e colunas que A e B.
 		SparseMatrix* AB = new SparseMatrix(nLinhas, nColunas);
+
+		// Percorre todas as linhas e colunas das matrizes.
 		for (int i = 1; i <= nLinhas; i++) {
 			for (int j = 1; j <= nColunas; j++) {
+
+				// Calcula a soma dos elementos nas posições (i, j) das matrizes A e B.
 				double value = A->get(i, j) + B->get(i, j);
+
+				// Insere o valor calculado na posição (i, j) da nova matriz.
 				AB->insert(i, j, value);
 			}
 		}
+
+		// Retorna a nova matriz, resultante da soma de A e B.
 		return AB;
 	} else{
+
+		// Se as matrizes A e B têm tamanhos diferentes, lança uma exceção.
 		throw out_of_range("Numero de linhas e colunas diferentes");
 	}
 }
-
 
 /*
 ** Recebe duas matrizes esparsas e retorna outra matriz correspondente a multiplicação das matrizes.
@@ -81,21 +93,36 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B) {
 ** uma exceção 
 */
 SparseMatrix *multiply(SparseMatrix *A, SparseMatrix *B) {
+
+	// Verifica se o número de colunas da matriz A é igual ao número de linhas da matriz B.
 	if (A->getColunas() == B->getLinhas()) {
+
 		int nLinhas = A->getLinhas(), nColunas = B->getColunas();
+
+		// Cria uma nova matriz esparsa com o número de linhas da matriz A e o número de colunas da matriz B.
 		SparseMatrix* AB = new SparseMatrix(nLinhas, nColunas);
 
+		// Percorre todas as linhas da matriz A e todas as colunas da matriz B.
 		for(int i = 1; i <= nLinhas; i++) {
 			for (int j = 1; j <= nColunas; j++){
+
+				// Inicializa a variável que armazenará o valor do elemento (i, j) da nova matriz.
 			    double value = 0;
+
+				// Calcula o valor do elemento (i, j) da nova matriz.
 				for(int x = 1; x <= A->getColunas(); x++) {
 					value += A->get(i, x) * B->get(x, j);
 				}
+
+				// Insere o valor calculado na posição (i, j) da nova matriz.
 				AB->insert(i, j, value);
 			}
 		}
+		// Retorna a nova matriz, que é o produto de A e B.
 		return AB;
 	} else{
+
+		// Se o número de colunas da matriz A não é igual ao número de linhas da matriz B, lança uma exceção.
 		throw out_of_range("Numero de colunas da primeira matriz nao corresponde com o numero de linhas da segunda");
 	}
 }

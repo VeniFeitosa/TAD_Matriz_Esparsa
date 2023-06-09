@@ -148,8 +148,14 @@ void SparseMatrix::insert(int i, int j, double value){
 }
 
 void SparseMatrix::popularMatriz(){
+
+    // Percorre todas as linhas da matriz.
     for (int i = 1; i <= m; i++){
+
+        // Dentro de cada linha, percorre todas as colunas.
         for (int j = 1; j <= n; j++){
+
+            // Insere um valor aleatório na posição (i, j) da matriz.
             this->insert(i, j, distribution(generator));
         }   
     }
@@ -207,20 +213,26 @@ void SparseMatrix::clear() {
 
     // Percorre todas as linhas da matriz.
     while (auxLinha != m_head){
+
         // Cria um ponteiro auxiliar para percorrer os nós da linha atual.
         Node* viajante = auxLinha->next;
         
         // Percorre todas os nós da linha atual.
         while (viajante != auxLinha){
+
             // Salva o nó atual em um ponteiro auxiliar.
             Node* aux = viajante;
+
             // Avança o ponteiro viajante para o próximo nó.
             viajante = viajante->next;
+
             // Remove o nó atual da lista.
             auxLinha->next = viajante;
+
             // Deleta o nó atual.
             delete aux;
         }
+
         // Avança o ponteiro auxLinha para a próxima linha.
         auxLinha = auxLinha->bottom;
     }
@@ -230,8 +242,10 @@ void SparseMatrix::clear() {
 
     // Percorre todas as colunas da matriz.
     while (auxColuna != m_head) {
+
         // Define o ponteiro bottom da coluna atual para apontar para ele mesmo.
         auxColuna->bottom = auxColuna;
+
         // Avança o ponteiro auxColuna para a próxima coluna.
         auxColuna = auxColuna->next;
     }
@@ -246,59 +260,105 @@ int SparseMatrix::getColunas(){
 }
 
 void SparseMatrix::desalocarLinhas(){
-
+    // Cria um ponteiro auxiliar para percorrer as linhas sentinelas da matriz.
     Node* auxLinha = m_head->bottom;
+
+    // Percorre todas as linhas sentinelas da matriz.
     while (auxLinha != m_head) {
+
+        // Salva o nó atual em um ponteiro auxiliar.
         Node* aux = auxLinha;
+
+        // Avança o ponteiro auxLinha pra próxima linha.
         auxLinha = auxLinha->bottom;
+
+        // Remove o nó sentinela atual da lista.
         m_head->bottom = auxLinha;
+
         cout << "desalocando sentinela linha: " << aux->linha << endl;
+
+        // Deleta o nó sentinela atual.
         delete aux;
     }
 }
 
 void SparseMatrix::desalocarColunas(){
-
+    // Cria um ponteiro auxiliar para percorrer as colunas sentinelas da matriz.
     Node* auxColuna = m_head->next;
+
+    // Percorre as colunas sentinelas da matriz.
     while (auxColuna != m_head) {
+
+        // Salva o nó sentinela atual em um ponteiro auxiliar.
         Node* aux = auxColuna;
+
+        // Avança o ponteiro auxColuna para a próxima coluna.
         auxColuna = auxColuna->next;
+
+        // Remove a coluna sentinela da lista.
         m_head->next = auxColuna;
+
         cout << "desalocando sentinela coluna: " << aux->coluna << endl;
+
+        // Deleta o nó sentinela atual.
         delete aux;
     }
 
 }
 
 SparseMatrix::~SparseMatrix(){
+    // Limpa a matriz, removendo todos os elementos não-zero.
     clear();
+
+    // Desaloca todas as linhas sentinelas da matriz.
     desalocarLinhas();
+
+    // Desaloca todas as colunas sentinelas da matriz.
     desalocarColunas();
+
+    // Deleta o nó cabeça.
     delete m_head;
 }
 
 double SparseMatrix::get(int i, int j) const{
+
+    // Verifica se os índices fornecidos estão dentro dos limites da matriz.
+    // Se os índices estiverem fora dos limites, uma exceção é lançada.
     if ((i <= 0 || i > m) || (j <= 0 || j > n)) {
         throw runtime_error("Indices invalidos");
     } else {
+        // Cria um ponteiro para o nó auxiliar que começa na primeira linha da matriz.
         Node* auxLinha = m_head->bottom;
 
+        // Percorre as linhas da matriz até encontrar a linha especificada.
         while (auxLinha->linha != i) {
             auxLinha = auxLinha->bottom;
         }
 
+        // Cria um ponteiro para o nó auxiliar que começa na primeira coluna da linha especificada.
         Node* auxColuna = auxLinha->next;
 
+        // Percorre as colunas da linha especificada.
         while (auxColuna != auxLinha) {
+
+            // Se a coluna atual corresponder à coluna especificada, retorna o valor do nó atual.
             if (auxColuna->coluna == j) {
                 return auxColuna->valor;
-            } else if (auxColuna->coluna > j) {
+            } 
+            // Se a coluna atual for maior que a coluna especificada, isso significa que a coluna especificada não existe na matriz esparsa.
+            // Portanto, retorna 0, pois os elementos não existentes em uma matriz esparsa são considerados 0.
+            else if (auxColuna->coluna > j) {
                 return 0;
-            } else {
+            }
+
+            // Se a coluna atual for menor que a coluna especificada, passa para a próxima coluna.
+            else {
                 auxColuna = auxColuna->next;
             }
         }
-        //se nao tiver nenhum elemento retorna 0
+
+        // Se o método chegar a este ponto, isso significa que a coluna especificada não existe na matriz esparsa.
+        // Portanto, retorna 0, pois os elementos não existentes em uma matriz esparsa são considerados 0.
         return 0;
     }
 }
