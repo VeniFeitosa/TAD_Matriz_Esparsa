@@ -202,25 +202,38 @@ void SparseMatrix::print(){
 }
 
 void SparseMatrix::clear() {
+    // Cria um ponteiro auxiliar para percorrer as linhas da matriz.
     Node* auxLinha = m_head->bottom;
 
+    // Percorre todas as linhas da matriz.
     while (auxLinha != m_head){
-        Node* auxColuna = auxLinha->next;
+        // Cria um ponteiro auxiliar para percorrer os nós da linha atual.
+        Node* viajante = auxLinha->next;
         
-        while (auxColuna != auxLinha){
-            Node* aux = auxColuna;
-            auxColuna = auxColuna->next;
-            auxLinha->next = auxColuna;
+        // Percorre todas os nós da linha atual.
+        while (viajante != auxLinha){
+            // Salva o nó atual em um ponteiro auxiliar.
+            Node* aux = viajante;
+            // Avança o ponteiro viajante para o próximo nó.
+            viajante = viajante->next;
+            // Remove o nó atual da lista.
+            auxLinha->next = viajante;
+            // Deleta o nó atual.
             delete aux;
         }
+        // Avança o ponteiro auxLinha para a próxima linha.
         auxLinha = auxLinha->bottom;
     }
 
-    auxLinha = auxLinha->next;
+    // Cria um ponteiro auxiliar para percorrer as colunas da matriz.
+    Node* auxColuna = m_head->next;
 
-    while(auxLinha != m_head) {
-        auxLinha->bottom = auxLinha;
-        auxLinha = auxLinha->next;
+    // Percorre todas as colunas da matriz.
+    while (auxColuna != m_head) {
+        // Define o ponteiro bottom da coluna atual para apontar para ele mesmo.
+        auxColuna->bottom = auxColuna;
+        // Avança o ponteiro auxColuna para a próxima coluna.
+        auxColuna = auxColuna->next;
     }
 }
 
