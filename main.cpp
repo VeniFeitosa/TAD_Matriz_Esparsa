@@ -218,6 +218,11 @@ int main() {
 			ss >> index;
 			SparseMatrix* mat = new SparseMatrix(*matrizes[index]);
 			matrizes.push_back(mat);
+		}else if(command == "empty") {
+			int index;
+			ss >> index;
+			if (matrizes[index]->empty()) cout << "Matriz vazia" << endl;
+			else cout << "Matriz não vazia" << endl;
 		} else{
 			cout << "comando inexistente" << endl;
 		}

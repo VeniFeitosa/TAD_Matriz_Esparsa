@@ -362,3 +362,28 @@ double SparseMatrix::get(int i, int j) const{
         return 0;
     }
 }
+
+bool SparseMatrix::empty() {
+
+    // Cria um ponteiro auxiliar para percorrer todas as linhas sentinelas da matriz,
+    // apontando para o primeiro nó sentinela da linha.
+    Node* auxLinha = m_head->bottom;
+
+    // Percorre todas as linhas sentinelas da matriz.
+    while (auxLinha != m_head) {
+
+        // Verifica se o nó à direita da linha é diferente da linha atual.
+        if (auxLinha->next != auxLinha) {
+
+            // Caso seja diferente significa que a matriz não está vazia.
+            return false;
+        }
+
+        // Avança o ponteiro auxLinha para a próxima linha.
+        auxLinha = auxLinha->bottom;
+    }
+
+    // Se o método chegar a este ponto significa que não há nenhum nó na matriz além dos sentinelas.
+    return true;
+
+}

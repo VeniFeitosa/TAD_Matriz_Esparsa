@@ -98,6 +98,11 @@ class SparseMatrix{
          * os índices passados forem válidos.
          */
         double get(int i, int j) const;
+
+        /*
+        * Essa função verifica se a matriz está vazia. 
+        */
+       bool empty();
 };
 
 #endif
