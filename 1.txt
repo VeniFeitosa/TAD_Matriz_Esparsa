@@ -1,4 +1,0 @@
-create 3 3
-popular 0
-print 0
-exit

@@ -187,9 +187,9 @@ int main() {
             ss >> index >> i >> j;
 			cout << fixed << setprecision(2) << matrizes[index]->get(i, j) << endl;
 		}else if(command == "populate"){
-			int m;
-			ss >> m;
-			matrizes[m]->popularMatriz();
+			int index;
+			ss >> index;
+			matrizes[index]->popularMatriz();
 		}else if(command == "createFrom"){
 			string arquivo;
 			ss >> arquivo;
@@ -198,11 +198,11 @@ int main() {
 				matrizes.push_back(ptr);
 			}
 		}else if(command == "export"){
-			int m;
+			int index;
 			string arquivo;
-			ss >> m;
+			ss >> index;
 			ss >> arquivo;
-			exportSparseMatrix(matrizes[m], arquivo);
+			exportSparseMatrix(matrizes[index], arquivo);
 		}else if(command == "sum"){
 			int a, b;
 			ss >> a >> b;
@@ -218,7 +218,17 @@ int main() {
 			ss >> index;
 			SparseMatrix* mat = new SparseMatrix(*matrizes[index]);
 			matrizes.push_back(mat);
-		} else{
+		}else if(command == "help"){
+			ifstream fin;
+			fin.open("help.txt");
+			if (fin.is_open()){
+				while (fin.good()){
+					string linha;
+					getline(fin, linha);
+					cout << linha << endl;
+				}
+			}
+		}else{
 			cout << "comando inexistente" << endl;
 		}
 	}
