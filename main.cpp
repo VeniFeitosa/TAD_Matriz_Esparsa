@@ -8,48 +8,73 @@
 #include "SparseMatrix.h"
 using namespace std;
 
+/**
+ * Cria uma matriz com base nas entradas de um
+ * arquivo .txt
+ */
 SparseMatrix* readSparseMatrix(string arquivo){
+	// Criação do objeto ifstream para leitura do arquivo
 	ifstream fin;
+	// Abre o arquivo
 	fin.open("./Matrizes/" + arquivo);
+	// Verifica se o arquivo foi aberto corretamente
 	if (fin.is_open()){
 		int m, n;
 		fin >> m;
 		fin >> n;
+		// Exibe as dimensões da matriz
 		cout << "Matriz: " << m << "x" << n << endl;
+		// Cria um novo objeto SparseMatrix com as dimensões m e n
 		SparseMatrix* nova = new SparseMatrix(m, n);
+
+		// Enquanto o arquivo tiver conteúdo para ser lido
 		while (fin.good()){
 			int i, j;
 			double val;
 			fin >> i;
 			fin >> j;
 			fin >> val;
+			// Insere o elemento na matriz esparsa
 			nova->insert(i, j, val);
 		}
 		cout << "Matriz alocada com sucesso ☑" << endl;
+		// Retorna o ponteiro para o objeto SparseMatrix
 		return nova;
 	}else{
 		cout << "arquivo " << arquivo << " não encontrado"<< endl;
+		// Retorna um ponteiro nulo, indicando que a matriz não foi lida corretamente
 		return nullptr;
 	}
 }
 
+/**
+ * Exporta uma matriz para um arquivo .txt
+ * Se o arquivo já existir, ele é atualizado
+ */
 void exportSparseMatrix(SparseMatrix* ptr, string arquivo){
+	// Criação do objeto ofstream para escrita no arquivo
 	ofstream fout;
 	int m, n;
+	// Obtém o número de linhas e colunas da matriz esparsa
 	m = ptr->getLinhas();
 	n = ptr->getColunas();
+	// Abre o arquivo para escrita
 	fout.open("./Matrizes/" + arquivo);
+	// Escreve as dimensões da matriz no arquivo
 	fout << m << " " << n << endl;
 
 	for (int i = 1; i <= m; i++){
 		for (int j = 1; j <= n; j++){
+			// Obtém o valor do elemento na posição (i, j)
 			double valor = ptr->get(i, j);
+			// Se o elemento for diferente de zero, escreve ele no arquivo
 			if (valor != 0){
 				fout << i << " " << j << " " << valor << endl;
 			}
 		}
 	}
 }
+
 
 /*
 ** Recebe duas matrizes esparsas e retorna outra matriz correspondente a soma.
@@ -152,11 +177,6 @@ int main() {
             ss >> m >> n;
 			SparseMatrix *mat = new SparseMatrix(m, n);
 			matrizes.push_back(mat);
-		}else if(command == "testConstrutor"){
-			int l;
-			ss >> l;
-			matrizes[l]->testConstructor();
-			
 		}else if(command == "print"){
 			int l;
 			ss >> l;
@@ -219,6 +239,7 @@ int main() {
 			SparseMatrix* mat = new SparseMatrix(*matrizes[index]);
 			matrizes.push_back(mat);
 		}else if(command == "help"){
+			system("clear||cls");
 			ifstream fin;
 			fin.open("help.txt");
 			if (fin.is_open()){
@@ -228,7 +249,12 @@ int main() {
 					cout << linha << endl;
 				}
 			}
-		}else{
+		}else if(command == "empty") {
+			int index;
+			ss >> index;
+			if (matrizes[index]->empty()) cout << "Matriz vazia" << endl;
+			else cout << "Matriz não vazia" << endl;
+		} else{
 			cout << "comando inexistente" << endl;
 		}
 	}

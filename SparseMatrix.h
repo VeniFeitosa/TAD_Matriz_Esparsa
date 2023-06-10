@@ -54,13 +54,6 @@ class SparseMatrix{
         int getColunas();
 
         /*
-         * Esta função serve apenas para checar
-         * se as linhas e colunas foram alocadas
-         * de forma correta
-         */
-        void testConstructor();
-
-        /*
          * Essa função insere um valor na posição (i,j) da matriz se
          * os valores passados forem válidos
          */
@@ -98,6 +91,11 @@ class SparseMatrix{
          * os índices passados forem válidos.
          */
         double get(int i, int j) const;
+
+        /*
+        * Essa função verifica se a matriz está vazia. 
+        */
+       bool empty();
 };
 
 #endif

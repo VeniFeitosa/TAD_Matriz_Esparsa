@@ -25,6 +25,11 @@ SparseMatrix::SparseMatrix(int m, int n){
     }
 }
 
+/*
+* Construtor de copia. Essa função recebe
+* uma matriz esparsa como parâmetro e retorna
+* uma matriz cópia da passada de parâmetro.
+*/
 SparseMatrix::SparseMatrix(const SparseMatrix& sp) {
     m = sp.m;
     n = sp.n;
@@ -61,23 +66,10 @@ void SparseMatrix::alocarColunas(int n){
     aux->next = m_head;
 }
 
-void SparseMatrix::testConstructor(){
-    Node* aux = this->m_head->bottom;
-
-    //mostra os sentinelas das linhas
-    while (aux != m_head){
-        cout << "linha: " << aux->linha << endl;
-        aux = aux->bottom;
-    }
-    aux = this->m_head->next;
-    //mostra os sentinelas das colunas
-    while (aux != m_head){
-        cout << "Coluna: " << aux->coluna << endl;
-        aux = aux->next;
-    }
-    
-}
-
+/*
+* Essa função insere um valor na posição (i,j) da matriz se
+* os valores passados forem válidos
+*/
 void SparseMatrix::insert(int i, int j, double value){
     if (i > this->m || j > this->n){
         throw out_of_range("Indices invalidos");
@@ -146,7 +138,10 @@ void SparseMatrix::insert(int i, int j, double value){
         }
     }
 }
-
+ /*
+* Essa função serve para popular a matriz
+* a fim de facilitar os testes.
+*/
 void SparseMatrix::popularMatriz(){
 
     // Percorre todas as linhas da matriz.
@@ -207,6 +202,11 @@ void SparseMatrix::print(){
     }
 }
 
+
+/*
+* Essa função esvazia a matriz, desalocando
+* todos os nós que não são sentinelas.
+*/
 void SparseMatrix::clear() {
     // Cria um ponteiro auxiliar para percorrer as linhas da matriz.
     Node* auxLinha = m_head->bottom;
@@ -251,14 +251,23 @@ void SparseMatrix::clear() {
     }
 }
 
+/*
+* Função que retorna o número de linhas da matriz.
+*/
 int SparseMatrix::getLinhas(){
     return m;
 }
 
+/* 
+* Função que retorna o número de colunas da matriz.
+*/
 int SparseMatrix::getColunas(){
     return n;
 }
 
+/*
+* Essa função desaloca as linhas sentinelas da matriz.
+*/
 void SparseMatrix::desalocarLinhas(){
     // Cria um ponteiro auxiliar para percorrer as linhas sentinelas da matriz.
     Node* auxLinha = m_head->bottom;
@@ -282,6 +291,9 @@ void SparseMatrix::desalocarLinhas(){
     }
 }
 
+/*
+* Essa função desaloca as colunas sentinelas da matriz.
+*/
 void SparseMatrix::desalocarColunas(){
     // Cria um ponteiro auxiliar para percorrer as colunas sentinelas da matriz.
     Node* auxColuna = m_head->next;
@@ -306,6 +318,11 @@ void SparseMatrix::desalocarColunas(){
 
 }
 
+/*
+* Destrutor da classe. Essa função libera
+* toda a memoria alocada, inclusive a do
+* sentinela.
+*/
 SparseMatrix::~SparseMatrix(){
     // Limpa a matriz, removendo todos os elementos não-zero.
     clear();
@@ -320,6 +337,10 @@ SparseMatrix::~SparseMatrix(){
     delete m_head;
 }
 
+/*
+* Essa função retorna o elemento (i, j) da matriz, caso
+* os índices passados forem válidos.
+*/
 double SparseMatrix::get(int i, int j) const{
 
     // Verifica se os índices fornecidos estão dentro dos limites da matriz.
@@ -361,4 +382,32 @@ double SparseMatrix::get(int i, int j) const{
         // Portanto, retorna 0, pois os elementos não existentes em uma matriz esparsa são considerados 0.
         return 0;
     }
+}
+
+/*
+* Essa função verifica se a matriz está vazia. 
+*/
+bool SparseMatrix::empty() {
+
+    // Cria um ponteiro auxiliar para percorrer todas as linhas sentinelas da matriz,
+    // apontando para o primeiro nó sentinela da linha.
+    Node* auxLinha = m_head->bottom;
+
+    // Percorre todas as linhas sentinelas da matriz.
+    while (auxLinha != m_head) {
+
+        // Verifica se o nó à direita da linha é diferente da linha atual.
+        if (auxLinha->next != auxLinha) {
+
+            // Caso seja diferente significa que a matriz não está vazia.
+            return false;
+        }
+
+        // Avança o ponteiro auxLinha para a próxima linha.
+        auxLinha = auxLinha->bottom;
+    }
+
+    // Se o método chegar a este ponto significa que não há nenhum nó na matriz além dos sentinelas.
+    return true;
+
 }
