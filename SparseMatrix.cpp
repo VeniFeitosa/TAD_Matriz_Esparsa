@@ -195,48 +195,17 @@ void SparseMatrix::popularMatriz(){
 }
 
 void SparseMatrix::print(){
-    Node* auxLinha = this->m_head->bottom;
-    Node* auxColuna;
 
-    // percorre todos os sentinelas de linha
-    while (auxLinha != m_head){
-        string str;
-        // str += "[ ";
+    // Percorre todas as linhas e colunas da matriz.
+    for (int i = 1; i <= m; i++) {
         cout << fixed << setprecision(2);
         cout << "[";
-        // esse auxiliar de coluna server para percorrer
-        // as colunas da linha atual
-        auxColuna = auxLinha;
-        // qtd é a quantidade de zeros que a linha deve ter
-        // conforme forem impressos números na linha, a quantidade
-        // de zeros que ela deve ter diminui
-        int qtd = this->n;
-        while (auxColuna->coluna != this->n){
-            if (auxColuna->next != auxLinha){
-                int distancia = auxColuna->next->coluna - auxColuna->coluna;
-
-                for (int i = 1; i < distancia; i++){
-                    cout << setw(6) << "0.00" << " ";
-                    // str += "0 ";
-                }
-                auxColuna = auxColuna->next;
-                // cout << auxColuna->valor << " ";
-                cout << setw(6) << auxColuna->valor << " ";
-                // str += to_string(auxColuna->valor) + " ";
-                qtd = qtd - distancia;
-            }else{
-                for (int i = 0; i < qtd; i++){
-                    cout << setw(6) << "0.00" << " ";
-                    // str += "0 ";
-                }
-                break;
-            }
+        for (int j = 1; j <= n; j++) {
+            // Imprime os valores da linha i e coluna j da matriz.
+            cout << setw(6) << get(i, j) << " ";
         }
-        //cout << endl;
+
         cout << "]" << endl;
-        // str += "]";
-        // cout << str << endl;
-        auxLinha = auxLinha->bottom;
     }
 }
 
@@ -342,7 +311,7 @@ void SparseMatrix::desalocarColunas(){
 }
 
 SparseMatrix::~SparseMatrix(){
-    
+
     // Limpa a matriz, removendo todos os elementos não-zero.
     clear();
 
