@@ -1,3 +1,9 @@
+/*
+ *  Discentes:
+ *  Venicius Feitosa - 537799
+ *  Gustavo Erick - 536884
+*/
+
 #ifndef SPARSE_MATRIX_H
 #define SPARSE_MATRIX_H
 #include "Node.h"

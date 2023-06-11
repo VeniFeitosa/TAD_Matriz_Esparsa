@@ -1,3 +1,9 @@
+/*
+ *  Discentes:
+ *  Venicius Feitosa - 537799
+ *  Gustavo Erick - 536884
+*/
+
 #include <iostream>
 #include <string>
 #include <sstream>

@@ -1,3 +1,9 @@
+/*
+ *  Discentes:
+ *  Venicius Feitosa - 537799
+ *  Gustavo Erick - 536884
+*/
+
 #ifndef NODE_H
 #define NODE_H
 
