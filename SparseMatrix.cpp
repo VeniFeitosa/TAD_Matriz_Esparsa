@@ -14,56 +14,100 @@
 #include "SparseMatrix.h"
 using namespace std;
 
-//cria um gerador de double aleatórios com intervalo de -50.0 a 50.0
+// Cria um gerador de double aleatórios com intervalo de -50.0 a 50.0.
 default_random_engine generator;
 uniform_real_distribution<double> distribution(-50.0,50.0);
 
-// Construtor da classe
 SparseMatrix::SparseMatrix(int m, int n){
-    if ((m > 0 &&  m <= 3000) && (n > 0 && n <= 3000)){
+
+    // Verifica se o número de linhas e colunas são válidos.
+    if (m > 0 && n > 0){
         this->m = m;
         this->n = n;
+
+        // Cria o nó cabeça.
         m_head = new Node(0, 0 , 0);
+
+        // Aloca m linhas sentinelas.
         alocarLinhas(m);
+
+        // Aloca n colunas sentinelas.
         alocarColunas(n);
     } else {
+
+        // Se o número de linhas ou colunas for inválidos, lança uma exceção.
         throw out_of_range("Linhas ou colunas invalidos");
     }
 }
 
 SparseMatrix::SparseMatrix(const SparseMatrix& sp) {
+
+    // Copia o número de linhas da matriz sp.
     m = sp.m;
+
+    // Copia o número de colunas da matriz sp.
     n = sp.n;
+
+    // Cria o nó cabeça.
     m_head = new Node(0, 0 , 0);
+
+    // Aloca m linhas sentinelas.
     alocarLinhas(m);
+
+    // Aloca n colunas sentinelas.
     alocarColunas(n);
 
+    // Percorre a matriz.
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
+            // Insere o valor em i, j do nó correspondente de sp na matriz copiada.
             insert(i, j, sp.get(i, j));
         }
     }
 }
 
-// Aloca M linhas na matriz
+
 void SparseMatrix::alocarLinhas(int m){
+
+    // Cria um ponteiro auxiliar para criar os nós das linhas sentinelas da matriz.
     Node* aux = m_head;
+
+    // Percorre as linhas sentinelas da matriz.
     for (int i = 1; i <= m; i++){
+
+        // Cria um novo nó sentinela abaixo de aux.
         aux->bottom = new Node(i, 0, 0);
+
+        // Avança aux para o novo nó.
         aux = aux->bottom;
+
+        // Faz aux apontar para si mesmo.
         aux->next = aux;
     }
+
+    // Faz o último nó da linha apontar para o nó cabeça.
     aux->bottom = m_head;
 }
 
-// Aloca N colunas na matriz
 void SparseMatrix::alocarColunas(int n){
+
+    // Cria um ponteiro auxiliar para criar os nós das colunas sentinelas da matriz.
     Node* aux = m_head;
+
+    // Percorre as colunas sentinelas da matriz.
     for (int i = 1; i <= n; i++){
+
+        // Cria um novo nó sentinela à direita de aux.
         aux->next = new Node(0, i, 0);
+
+        // Avança aux para o novo nó.
         aux = aux->next;
+
+        // Faz aux apontar para si mesmo.
         aux->bottom = aux;
     }
+
+    // Faz o último nó da coluna apontar para o nó cabeça.
     aux->next = m_head;
 }
 
@@ -249,6 +293,7 @@ int SparseMatrix::getColunas(){
 }
 
 void SparseMatrix::desalocarLinhas(){
+
     // Cria um ponteiro auxiliar para percorrer as linhas sentinelas da matriz.
     Node* auxLinha = m_head->bottom;
 
@@ -272,6 +317,7 @@ void SparseMatrix::desalocarLinhas(){
 }
 
 void SparseMatrix::desalocarColunas(){
+
     // Cria um ponteiro auxiliar para percorrer as colunas sentinelas da matriz.
     Node* auxColuna = m_head->next;
 
@@ -296,6 +342,7 @@ void SparseMatrix::desalocarColunas(){
 }
 
 SparseMatrix::~SparseMatrix(){
+    
     // Limpa a matriz, removendo todos os elementos não-zero.
     clear();
 
