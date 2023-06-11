@@ -20,7 +20,7 @@ uniform_real_distribution<double> distribution(-50.0,50.0);
 
 // Construtor da classe
 SparseMatrix::SparseMatrix(int m, int n){
-    if (m > 0 && n > 0){
+    if ((m > 0 &&  m <= 3000) && (n > 0 && n <= 3000)){
         this->m = m;
         this->n = n;
         m_head = new Node(0, 0 , 0);
