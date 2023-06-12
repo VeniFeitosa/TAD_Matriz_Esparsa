@@ -21,7 +21,7 @@ uniform_real_distribution<double> distribution(-50.0,50.0);
 SparseMatrix::SparseMatrix(int m, int n){
 
     // Verifica se o número de linhas e colunas são válidos.
-    if (m > 0 && n > 0){
+    if ((m > 0 && m <= 30000) && (n > 0 && n <= 30000)){
         this->m = m;
         this->n = n;
 
@@ -210,6 +210,12 @@ void SparseMatrix::print(){
 }
 
 void SparseMatrix::clear() {
+    // Verifica se a matriz está vazia.
+    if(empty()) {
+        // Encerra a execução da função.
+        return;
+    }
+
     // Cria um ponteiro auxiliar para percorrer as linhas da matriz.
     Node* auxLinha = m_head->bottom;
 
@@ -251,6 +257,7 @@ void SparseMatrix::clear() {
         // Avança o ponteiro auxColuna para a próxima coluna.
         auxColuna = auxColuna->next;
     }
+    
 }
 
 int SparseMatrix::getLinhas(){
@@ -326,12 +333,14 @@ SparseMatrix::~SparseMatrix(){
 }
 
 double SparseMatrix::get(int i, int j) const{
-
     // Verifica se os índices fornecidos estão dentro dos limites da matriz.
     // Se os índices estiverem fora dos limites, uma exceção é lançada.
     if ((i <= 0 || i > m) || (j <= 0 || j > n)) {
         throw runtime_error("Indices invalidos");
+    } else if (empty()){
+        return 0;
     } else {
+
         // Cria um ponteiro para o nó auxiliar que começa na primeira linha da matriz.
         Node* auxLinha = m_head->bottom;
 
@@ -368,7 +377,7 @@ double SparseMatrix::get(int i, int j) const{
     }
 }
 
-bool SparseMatrix::empty() {
+bool SparseMatrix::empty() const { 
 
     // Cria um ponteiro auxiliar para percorrer todas as linhas sentinelas da matriz,
     // apontando para o primeiro nó sentinela da linha.

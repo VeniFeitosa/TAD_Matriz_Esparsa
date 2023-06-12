@@ -101,7 +101,7 @@ class SparseMatrix{
         /*
         * Essa função verifica se a matriz está vazia. 
         */
-       bool empty();
+       bool empty() const;
 };
 
 #endif

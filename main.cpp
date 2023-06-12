@@ -187,7 +187,6 @@ int main() {
 			int l;
 			ss >> l;
 			matrizes[l]->print();
-			//insert 0 2 3 10
 		}else if(command == "printAll"){
 			cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-" << endl;
 			for (size_t i = 0; i < matrizes.size(); i++){
