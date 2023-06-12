@@ -162,6 +162,7 @@ int main() {
 	system("chcp 65001 > nul");
 	vector<SparseMatrix*> matrizes;
 	
+	cout << "Digite 'help' listar os comandos disponíveis." << endl;
 	while(true) {
 		cout << "──────────────────────────" << endl;
 		cout << "-> ";
