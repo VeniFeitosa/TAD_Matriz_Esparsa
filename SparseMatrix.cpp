@@ -42,13 +42,10 @@ SparseMatrix::SparseMatrix(int m, int n){
 
 SparseMatrix::SparseMatrix(const SparseMatrix& sp) {
 
-    // Copia o número de linhas da matriz sp.
+    // Copia o número de linhas e colunas da matriz sp.
     m = sp.m;
-
-    // Copia o número de colunas da matriz sp.
     n = sp.n;
 
-    // Cria o nó cabeça.
     m_head = new Node(0, 0 , 0);
 
     // Aloca m linhas sentinelas.
@@ -57,7 +54,6 @@ SparseMatrix::SparseMatrix(const SparseMatrix& sp) {
     // Aloca n colunas sentinelas.
     alocarColunas(n);
 
-    // Percorre a matriz.
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {
             // Insere o valor em i, j do nó correspondente de sp na matriz copiada.
@@ -210,9 +206,9 @@ void SparseMatrix::print(){
 }
 
 void SparseMatrix::clear() {
+
     // Verifica se a matriz está vazia.
     if(empty()) {
-        // Encerra a execução da função.
         return;
     }
 
@@ -333,10 +329,12 @@ SparseMatrix::~SparseMatrix(){
 }
 
 double SparseMatrix::get(int i, int j) const{
-    // Verifica se os índices fornecidos estão dentro dos limites da matriz.
-    // Se os índices estiverem fora dos limites, uma exceção é lançada.
+
+    // Verifica se os índices fornecidos são válidos.
     if ((i <= 0 || i > m) || (j <= 0 || j > n)) {
         throw runtime_error("Indices invalidos");
+
+        // Verifica se a matriz está vazia.
     } else if (empty()){
         return 0;
     } else {
@@ -355,24 +353,21 @@ double SparseMatrix::get(int i, int j) const{
         // Percorre as colunas da linha especificada.
         while (auxColuna != auxLinha) {
 
-            // Se a coluna atual corresponder à coluna especificada, retorna o valor do nó atual.
+            // Se a coluna atual corresponder à coluna j, retorna o valor do nó atual.
             if (auxColuna->coluna == j) {
                 return auxColuna->valor;
             } 
-            // Se a coluna atual for maior que a coluna especificada, isso significa que a coluna especificada não existe na matriz esparsa.
-            // Portanto, retorna 0, pois os elementos não existentes em uma matriz esparsa são considerados 0.
+            // Se a coluna atual for maior que a coluna j, significa que a coluna especificada não existe na matriz.
             else if (auxColuna->coluna > j) {
                 return 0;
             }
 
-            // Se a coluna atual for menor que a coluna especificada, passa para a próxima coluna.
+            // Se a coluna atual for menor que a coluna j, passa para a próxima coluna.
             else {
                 auxColuna = auxColuna->next;
             }
         }
 
-        // Se o método chegar a este ponto, isso significa que a coluna especificada não existe na matriz esparsa.
-        // Portanto, retorna 0, pois os elementos não existentes em uma matriz esparsa são considerados 0.
         return 0;
     }
 }
